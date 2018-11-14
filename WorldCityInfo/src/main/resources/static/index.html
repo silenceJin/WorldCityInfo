@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Our World</title>
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+		<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+
+		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<script src="js/index.js"></script>
+	</head>
+	<body>
+		<div id="country">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th colspan="4" v-if="countryName == '' || countryName == null">All Country</th>
+						<th colspan="4" v-else>All country names containing "<span style="color: red;">{{countryName}}</span>"</th>
+						<th colspan="7">
+
+						</th>
+						<th colspan="4">
+							<div class="input-group">
+								<input v-model="countryName" placeholder="Country Name" @keyup.enter="findCountry(1)" type="text" class="form-control">
+								<span class="input-group-btn">
+									<button @click="findCountry(1)" class="btn btn-default" type="button"> 查找 </button>
+								</span>
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th>code</th>
+						<th>name</th>
+						<th>continent</th>
+						<th>region</th>
+						<th>surfacearea</th>
+						<th>indepyear</th>
+						<th>population</th>
+						<th>lifeexpectancy</th>
+						<th>gnp</th>
+						<th>gnpold</th>
+						<th>localname</th>
+						<th>governmentform</th>
+						<th>headofstate</th>
+						<th>capital</th>
+						<th>code2</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="country in paging.list" @click="findCity(country.code)">
+						<td>{{country.code}}</td>
+						<td>{{country.name}}</td>
+						<td>{{country.continent}}</td>
+						<td>{{country.region}}</td>
+						<td>{{country.surfacearea}}</td>
+						<td>{{country.indepyear}}</td>
+						<td>{{country.population}}</td>
+						<td>{{country.lifeexpectancy}}</td>
+						<td>{{country.gnp}}</td>
+						<td>{{country.gnpold}}</td>
+						<td>{{country.localname}}</td>
+						<td>{{country.governmentform}}</td>
+						<td>{{country.headofstate}}</td>
+						<td>{{country.capital}}</td>
+						<td>{{country.code2}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div align="center">
+				<ul :class="'pagination pager'">
+					<li v-if="paging.hasPreviousPage" :class="'previous'">
+						<a href="#" @click="findCountry(paging.prePage)">上一页</a>
+					</li>
+					<li v-else :class="'previous disabled'">
+						<a href="#" @click="findCountry(paging.prePage)">上一页</a>
+					</li>
+					<template v-for="pageNum in paging.navigatepageNums">
+						<li v-if="pageNum != paging.pageNum">
+							<a href="#" @click="findCountry(pageNum)">{{pageNum}}</a>
+						</li>
+						<li :class="'active'" v-else>
+							<a href="#">{{pageNum}}</a>
+						</li>
+					</template>
+					<li v-if="paging.hasNextPage" :class="'next'">
+						<a href="#" @click="findCountry(paging.nextPage)">下一页</a>
+					</li>
+					<li v-else :class="'next disabled'">
+						<a href="#" @click="findCountry(paging.nextPage)">下一页</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
